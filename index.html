@@ -244,12 +244,32 @@
           <p>Selecciona tu producto y verifica tus precios:</p>
         </div>
 
-        <!-- Selector interactivo de Producto / Oferta -->
+        <!-- Selector interactivo de Producto y Cantidad -->
         <div class="product-selector-box">
-          <label for="selectProductCheckout">Producto seleccionado:</label>
-          <select id="selectProductCheckout">
-            <!-- Cargado dinámicamente -->
-          </select>
+          <div class="selector-field-group">
+            <label for="selectProductCheckout">Producto seleccionado:</label>
+            <select id="selectProductCheckout">
+              <!-- Cargado dinámicamente -->
+            </select>
+          </div>
+
+          <div class="quantity-field-group">
+            <label for="inputProductQty">Cantidad:</label>
+            <div class="quantity-stepper">
+              <button type="button" class="btn-qty-step" id="btnQtyMinus" aria-label="Disminuir cantidad">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+              </button>
+              <input type="number" id="inputProductQty" value="1" min="1" max="99" readonly aria-label="Cantidad">
+              <button type="button" class="btn-qty-step" id="btnQtyPlus" aria-label="Aumentar cantidad">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="12" y1="5" x2="12" y2="19"></line>
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+              </button>
+            </div>
+          </div>
         </div>
 
         <!-- TABLA DE PRECIOS EXACTA A LA IMAGEN DE REFERENCIA -->

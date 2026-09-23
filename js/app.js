@@ -7,12 +7,16 @@ document.addEventListener("DOMContentLoaded", () => {
   // Estado actual del pedido
   let currentProduct = CONFIG.products[0];
   let currentPack = currentProduct.packs ? currentProduct.packs[0] : null;
+  let currentQuantity = 1;
   let isBumpActive = false;
 
   // Elementos del DOM
   const productsGrid = document.getElementById("productsGrid");
   const testimonialsGrid = document.getElementById("testimonialsGrid");
   const selectProductCheckout = document.getElementById("selectProductCheckout");
+  const inputProductQty = document.getElementById("inputProductQty");
+  const btnQtyMinus = document.getElementById("btnQtyMinus");
+  const btnQtyPlus = document.getElementById("btnQtyPlus");
   const selectProvincia = document.getElementById("inputProvincia");
   const selectCiudad = document.getElementById("inputCiudad");
   const bumpCheckbox = document.getElementById("bumpCheckbox");
@@ -173,22 +177,47 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
-  // 6. Recalcular Precios en Tiempo Real
+  // 6. Recalcular Precios en Tiempo Real según Producto, Cantidad y Order Bump
   const updatePriceCalculations = () => {
-    const baseSubtotal = currentProduct.originalPrice;
-    const baseDiscount = currentProduct.discount;
+    const qty = currentQuantity;
+    const baseSubtotal = currentProduct.originalPrice * qty;
+    const baseDiscount = currentProduct.discount * qty;
     const bumpPrice = isBumpActive ? CONFIG.orderBump.price : 0;
+    const bumpOriginal = isBumpActive ? CONFIG.orderBump.originalPrice : 0;
     const shipping = CONFIG.shippingCost;
 
-    const netSubtotal = baseSubtotal + (isBumpActive ? CONFIG.orderBump.originalPrice : 0);
+    const netSubtotal = baseSubtotal + bumpOriginal;
     const totalDiscount = baseDiscount + (isBumpActive ? (CONFIG.orderBump.originalPrice - CONFIG.orderBump.price) : 0);
-    const finalTotal = (baseSubtotal - baseDiscount) + bumpPrice + shipping;
+    const finalTotal = (currentProduct.price * qty) + bumpPrice + shipping;
 
     if (elSubtotal) elSubtotal.textContent = formatRD(netSubtotal);
     if (elDiscount) elDiscount.textContent = `-${formatRD(totalDiscount)}`;
     if (elShipping) elShipping.textContent = CONFIG.shippingCost === 0 ? "Gratis" : formatRD(CONFIG.shippingCost);
     if (elTotal) elTotal.textContent = formatRD(finalTotal);
     if (elBtnTotal) elBtnTotal.textContent = formatRD(finalTotal);
+  };
+
+  // Controlador del selector de cantidad (+ y -)
+  const initQuantityControl = () => {
+    if (btnQtyMinus) {
+      btnQtyMinus.addEventListener("click", () => {
+        if (currentQuantity > 1) {
+          currentQuantity--;
+          if (inputProductQty) inputProductQty.value = currentQuantity;
+          updatePriceCalculations();
+        }
+      });
+    }
+
+    if (btnQtyPlus) {
+      btnQtyPlus.addEventListener("click", () => {
+        if (currentQuantity < 99) {
+          currentQuantity++;
+          if (inputProductQty) inputProductQty.value = currentQuantity;
+          updatePriceCalculations();
+        }
+      });
+    }
   };
 
   // 7. Manejo del Order Bump (Casilla Verde punteada)
@@ -272,22 +301,33 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // Generar ID de Orden
       const orderNumber = `ORD-${Math.floor(1000 + Math.random() * 9000)}`;
+      const qty = currentQuantity;
+      const productTotal = currentProduct.price * qty;
       const bumpPrice = isBumpActive ? CONFIG.orderBump.price : 0;
-      const finalTotal = (currentProduct.originalPrice - currentProduct.discount) + bumpPrice + CONFIG.shippingCost;
+      const bumpOriginal = isBumpActive ? CONFIG.orderBump.originalPrice : 0;
+      const netSubtotal = (currentProduct.originalPrice * qty) + bumpOriginal;
+      const totalDiscount = (currentProduct.discount * qty) + (isBumpActive ? (CONFIG.orderBump.originalPrice - CONFIG.orderBump.price) : 0);
+      const finalTotal = productTotal + bumpPrice + CONFIG.shippingCost;
 
       // Crear mensaje estructurado para WhatsApp
       let msg = `🌿 *¡NUEVO PEDIDO - ORGANIC SHOP RD!* 🇩🇴\n`;
       msg += `*Orden:* #${orderNumber}\n\n`;
 
-      msg += `📦 *PRODUCTO SELECCIONADO:*\n`;
-      msg += `• 1x ${currentProduct.name} (${formatRD(currentProduct.price)})\n`;
+      msg += `📦 *PRODUCTO Y CANTIDAD:*\n`;
+      if (qty === 1) {
+        msg += `• *Cantidad:* 1 unidad\n`;
+        msg += `• *Producto:* ${currentProduct.name} (${formatRD(currentProduct.price)})\n`;
+      } else {
+        msg += `• *Cantidad:* ${qty} unidades\n`;
+        msg += `• *Producto:* ${currentProduct.name} (${formatRD(currentProduct.price)} c/u = ${formatRD(productTotal)})\n`;
+      }
       if (isBumpActive) {
-        msg += `• 🔥 *Oferta Especial:* ${CONFIG.orderBump.title} (${formatRD(CONFIG.orderBump.price)})\n`;
+        msg += `• 🔥 *Oferta Especial (Order Bump):* ${CONFIG.orderBump.title} (${formatRD(CONFIG.orderBump.price)})\n`;
       }
 
       msg += `\n💰 *DETALLE DEL PAGO:*\n`;
-      msg += `• Subtotal: ${formatRD(currentProduct.originalPrice + (isBumpActive ? CONFIG.orderBump.originalPrice : 0))}\n`;
-      msg += `• Descuento: -${formatRD(currentProduct.discount + (isBumpActive ? (CONFIG.orderBump.originalPrice - CONFIG.orderBump.price) : 0))}\n`;
+      msg += `• Subtotal: ${formatRD(netSubtotal)}\n`;
+      msg += `• Descuento: -${formatRD(totalDiscount)}\n`;
       msg += `• Envío: GRATIS 🚚\n`;
       msg += `• *TOTAL A PAGAR EN CASA:* ${formatRD(finalTotal)}\n\n`;
 
@@ -384,6 +424,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Inicialización de componentes
   initThemeSwitcher();
+  initQuantityControl();
   initProvinces();
   initProductSelector();
   renderCatalog();

@@ -44,16 +44,32 @@
   margin: 0;
 }
 
-/* Selector de Producto / Pack dentro del Checkout */
+/* Selector de Producto y Cantidad dentro del Checkout */
 .product-selector-box {
   background: #f8fafc;
   border: 1px solid #e2e8f0;
   border-radius: 10px;
-  padding: 12px;
+  padding: 14px;
   margin-bottom: 18px;
+  display: flex;
+  gap: 14px;
+  align-items: flex-end;
 }
 
-.product-selector-box label {
+@media (max-width: 480px) {
+  .product-selector-box {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+}
+
+.selector-field-group {
+  flex: 1;
+}
+
+.selector-field-group label,
+.quantity-field-group label {
   font-size: 0.85rem;
   font-weight: 600;
   color: #334155;
@@ -61,9 +77,10 @@
   margin-bottom: 6px;
 }
 
-.product-selector-box select {
+.selector-field-group select {
   width: 100%;
-  padding: 10px 12px;
+  height: 42px;
+  padding: 0 12px;
   border-radius: 8px;
   border: 1.5px solid #cbd5e1;
   background-color: #ffffff;
@@ -75,8 +92,66 @@
   transition: border-color 0.2s;
 }
 
-.product-selector-box select:focus {
+.selector-field-group select:focus {
   border-color: #16a34a;
+}
+
+.quantity-field-group {
+  flex-shrink: 0;
+}
+
+.quantity-stepper {
+  display: inline-flex;
+  align-items: center;
+  background: #ffffff;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 8px;
+  overflow: hidden;
+  height: 42px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.btn-qty-step {
+  background: #f1f5f9;
+  border: none;
+  width: 38px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #334155;
+  transition: background-color 0.2s, color 0.2s;
+  user-select: none;
+  outline: none;
+}
+
+.btn-qty-step:hover {
+  background: #e2e8f0;
+  color: #16a34a;
+}
+
+.btn-qty-step:active {
+  background: #cbd5e1;
+}
+
+.quantity-stepper input {
+  width: 48px;
+  height: 100%;
+  border: none;
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #0f172a;
+  background: transparent;
+  outline: none;
+  -moz-appearance: textfield;
+}
+
+.quantity-stepper input::-webkit-outer-spin-button,
+.quantity-stepper input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 /* Cuadro de Resumen de Precios (Exacto a la Imagen) */
@@ -527,13 +602,37 @@
   border-color: #274350;
 }
 
-[data-theme="dark"] .product-selector-box label {
+[data-theme="dark"] .selector-field-group label,
+[data-theme="dark"] .quantity-field-group label {
   color: #e2e8f0;
 }
 
-[data-theme="dark"] .product-selector-box select {
+[data-theme="dark"] .selector-field-group select {
   background-color: #142126;
   border-color: #335160;
+  color: #f8fafc;
+}
+
+[data-theme="dark"] .quantity-stepper {
+  background: #142126;
+  border-color: #335160;
+}
+
+[data-theme="dark"] .btn-qty-step {
+  background: #1c2e37;
+  color: #f8fafc;
+}
+
+[data-theme="dark"] .btn-qty-step:hover {
+  background: #253d49;
+  color: #4ade80;
+}
+
+[data-theme="dark"] .btn-qty-step:active {
+  background: #182830;
+}
+
+[data-theme="dark"] .quantity-stepper input {
   color: #f8fafc;
 }
 
