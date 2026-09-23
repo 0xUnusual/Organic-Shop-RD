@@ -1,0 +1,505 @@
+/**
+ * Checkout Form Styles - Organic Shop RD
+ * Replica exacta del diseño de referencia con optimizaciones de alta conversión
+ */
+
+.checkout-wrapper {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e2e8f0;
+  max-width: 540px;
+  margin: 0 auto;
+  padding: 24px;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+@media (max-width: 600px) {
+  .checkout-wrapper {
+    padding: 16px 14px;
+    border-radius: 12px;
+  }
+}
+
+/* Encabezado del Formulario / Selector de producto */
+.checkout-header {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.checkout-header h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 6px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.checkout-header p {
+  color: #64748b;
+  font-size: 0.88rem;
+  margin: 0;
+}
+
+/* Selector de Producto / Pack dentro del Checkout */
+.product-selector-box {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 12px;
+  margin-bottom: 18px;
+}
+
+.product-selector-box label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #334155;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.product-selector-box select {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1.5px solid #cbd5e1;
+  background-color: #ffffff;
+  font-size: 0.92rem;
+  color: #1e293b;
+  font-weight: 500;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.product-selector-box select:focus {
+  border-color: #16a34a;
+}
+
+/* Cuadro de Resumen de Precios (Exacto a la Imagen) */
+.order-summary-box {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 16px 18px;
+  margin-bottom: 22px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  font-size: 0.95rem;
+}
+
+.summary-row:last-child {
+  margin-bottom: 0;
+}
+
+.summary-row .label {
+  color: #1e293b;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.summary-row .label svg {
+  color: #64748b;
+}
+
+.summary-row .value {
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.summary-row.discount .label,
+.summary-row.discount .value {
+  color: #dc2626; /* Rojo de descuento */
+}
+
+.summary-row.shipping .value {
+  color: #0f172a;
+  font-weight: 700;
+}
+
+.summary-divider {
+  height: 1px;
+  background: #e2e8f0;
+  margin: 12px 0;
+}
+
+.summary-row.total {
+  font-size: 1.15rem;
+  padding-top: 2px;
+}
+
+.summary-row.total .label {
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+
+.summary-row.total .value {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+/* Campos del Formulario */
+.form-group-row {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  align-items: center;
+  margin-bottom: 14px;
+  gap: 12px;
+}
+
+@media (max-width: 520px) {
+  .form-group-row {
+    grid-template-columns: 1fr;
+    gap: 4px;
+    margin-bottom: 14px;
+  }
+}
+
+.form-label {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0;
+  line-height: 1.25;
+}
+
+.form-label .required {
+  color: #ef4444;
+  margin-left: 2px;
+  font-weight: 700;
+}
+
+/* Input Wrapper con Icono Estilo Referencia */
+.input-with-icon {
+  display: flex;
+  align-items: stretch;
+  background: #ffffff;
+  border: 1.5px solid #d1d5db;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.input-with-icon:focus-within {
+  border-color: #16a34a;
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.15);
+}
+
+.input-with-icon.error {
+  border-color: #ef4444;
+  background-color: #fef2f2;
+}
+
+.input-icon-box {
+  background: #e5e7eb;
+  padding: 0 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-right: 1px solid #d1d5db;
+  color: #4b5563;
+  flex-shrink: 0;
+}
+
+.input-icon-box svg {
+  width: 17px;
+  height: 17px;
+}
+
+.input-with-icon input {
+  flex: 1;
+  border: none;
+  outline: none;
+  padding: 11px 14px;
+  font-size: 0.92rem;
+  color: #1f2937;
+  background: transparent;
+  width: 100%;
+  font-family: inherit;
+}
+
+.input-with-icon input::placeholder {
+  color: #9ca3af;
+}
+
+/* Select Estilo Referencia */
+.select-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.select-wrapper select {
+  width: 100%;
+  padding: 11px 36px 11px 14px;
+  border: 1.5px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 0.92rem;
+  color: #1f2937;
+  background-color: #ffffff;
+  appearance: none;
+  -webkit-appearance: none;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  font-family: inherit;
+}
+
+.select-wrapper select:focus {
+  border-color: #16a34a;
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.15);
+}
+
+.select-wrapper select.error {
+  border-color: #ef4444;
+  background-color: #fef2f2;
+}
+
+.select-chevron {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: #4b5563;
+  display: flex;
+  align-items: center;
+}
+
+.select-chevron svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Order Bump / Oferta Adicional Especial (Borde verde punteado exacto) */
+.order-bump-container {
+  background: #f0fdf4;
+  border: 2px dashed #22c55e;
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin: 20px 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.15s;
+  user-select: none;
+}
+
+.order-bump-container:hover {
+  background: #dcfce7;
+}
+
+.order-bump-container.active {
+  background: #dcfce7;
+  border-style: solid;
+}
+
+.bump-checkbox {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.bump-checkbox input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  accent-color: #16a34a;
+  cursor: pointer;
+}
+
+.bump-image {
+  width: 48px;
+  height: 48px;
+  border-radius: 6px;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 1px solid #bbf7d0;
+  background: #fff;
+}
+
+.bump-text {
+  font-size: 0.88rem;
+  line-height: 1.35;
+  color: #166534;
+  flex: 1;
+}
+
+.bump-text strong {
+  color: #14532d;
+  font-weight: 700;
+}
+
+.bump-price {
+  font-weight: 800;
+  color: #15803d;
+}
+
+/* Botón Principal de Compra "CLICK AQUÍ Y PAGAS AL RECIBIR" */
+.btn-submit-order {
+  width: 100%;
+  background: #16a34a;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 16px 20px;
+  font-size: 0.98rem;
+  font-weight: 800;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(22, 163, 74, 0.35);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-top: 10px;
+}
+
+.btn-submit-order:hover {
+  background: #15803d;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(22, 163, 74, 0.45);
+}
+
+.btn-submit-order:active {
+  transform: translateY(0);
+}
+
+.btn-submit-order svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+/* Indicadores de Seguridad y Confianza Debajo del Botón */
+.checkout-guarantees {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px dashed #e2e8f0;
+  flex-wrap: wrap;
+}
+
+.guarantee-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.guarantee-item svg {
+  color: #16a34a;
+  width: 15px;
+  height: 15px;
+}
+
+/* Modal de Éxito / Redirección a WhatsApp */
+.order-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(4px);
+  z-index: 9999;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.order-modal-backdrop.show {
+  display: flex;
+}
+
+.order-modal-card {
+  background: #ffffff;
+  border-radius: 18px;
+  max-width: 440px;
+  width: 100%;
+  padding: 32px 24px;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  animation: modalPopIn 0.3s ease-out;
+}
+
+@keyframes modalPopIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.modal-icon-circle {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: #dcfce7;
+  color: #16a34a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+}
+
+.modal-icon-circle svg {
+  width: 36px;
+  height: 36px;
+}
+
+.order-modal-card h3 {
+  font-size: 1.35rem;
+  color: #0f172a;
+  margin: 0 0 8px;
+  font-weight: 700;
+}
+
+.order-modal-card p {
+  color: #64748b;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  margin: 0 0 20px;
+}
+
+.btn-open-wa-direct {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  background: #25d366;
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 700;
+  padding: 14px 20px;
+  border-radius: 10px;
+  font-size: 1rem;
+  box-shadow: 0 4px 12px rgba(37, 211, 102, 0.35);
+  transition: all 0.2s;
+}
+
+.btn-open-wa-direct:hover {
+  background: #20bd5a;
+  transform: translateY(-2px);
+}
