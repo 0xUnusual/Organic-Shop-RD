@@ -348,10 +348,46 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
+  // 11. Selector de Modo Claro / Oscuro
+  const initThemeSwitcher = () => {
+    const themeBtn = document.getElementById("themeToggleBtn");
+    if (!themeBtn) return;
+
+    const updateThemeUI = (theme) => {
+      document.documentElement.setAttribute("data-theme", theme);
+      const isDark = theme === "dark";
+      themeBtn.setAttribute("aria-label", isDark ? "Cambiar a modo claro" : "Cambiar a modo oscuro");
+      themeBtn.setAttribute("title", isDark ? "Modo Claro" : "Modo Oscuro");
+    };
+
+    const currentTheme = document.documentElement.getAttribute("data-theme") || "light";
+    updateThemeUI(currentTheme);
+
+    themeBtn.addEventListener("click", () => {
+      const activeTheme = document.documentElement.getAttribute("data-theme") || "light";
+      const nextTheme = activeTheme === "dark" ? "light" : "dark";
+      updateThemeUI(nextTheme);
+      localStorage.setItem("organic_theme", nextTheme);
+    });
+
+    // Sincronizar si cambia la preferencia del sistema operativo
+    try {
+      window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (e) => {
+        if (!localStorage.getItem("organic_theme")) {
+          updateThemeUI(e.matches ? "dark" : "light");
+        }
+      });
+    } catch (err) {
+      // Compatibilidad con navegadores antiguos
+    }
+  };
+
   // Inicialización de componentes
+  initThemeSwitcher();
   initProvinces();
   initProductSelector();
   renderCatalog();
   renderTestimonials();
   updatePriceCalculations();
 });
+
