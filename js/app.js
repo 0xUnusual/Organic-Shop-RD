@@ -11,7 +11,11 @@ document.addEventListener("DOMContentLoaded", () => {
   let isBumpActive = false;
 
   // Elementos del DOM
-  const productsGrid = document.getElementById("productsGrid");
+  const featuredProductsGrid = document.getElementById("featuredProductsGrid") || document.getElementById("productsGrid");
+  const allProductsGrid = document.getElementById("allProductsGrid");
+  const categoryFilters = document.getElementById("categoryFilters");
+  const mobileNavToggle = document.getElementById("mobileNavToggle");
+  const mobileNavDropdown = document.getElementById("mobileNavDropdown");
   const testimonialsGrid = document.getElementById("testimonialsGrid");
   const selectProductCheckout = document.getElementById("selectProductCheckout");
   const inputProductQty = document.getElementById("inputProductQty");
@@ -77,50 +81,115 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // 3. Renderizar Catálogo de Productos
-  const renderCatalog = () => {
-    if (!productsGrid) return;
-    productsGrid.innerHTML = "";
+  // Creador común de tarjeta de producto
+  const createProductCard = (prod, isFeatured = false) => {
+    const card = document.createElement("div");
+    card.className = `product-card ${isFeatured ? "product-card-featured" : ""}`;
+    card.setAttribute("data-product-category", prod.category);
+    
+    card.innerHTML = `
+      <div class="card-image-box">
+        <img src="${prod.image}" alt="${prod.name}" loading="lazy">
+        <span class="card-badge">${prod.badge}</span>
+        <span class="card-discount-tag">AHORRA ${formatRD(prod.discount)}</span>
+      </div>
+      <div class="card-body">
+        <span class="card-category">${prod.category}</span>
+        <h3 class="card-title">${prod.name}</h3>
+        <div class="card-rating">
+          ★★★★★ <strong>${prod.rating}</strong> <span>(${prod.reviewsCount} opiniones)</span>
+        </div>
+        <p class="card-desc">${prod.description}</p>
+        <ul class="card-features">
+          ${prod.features.slice(0, 3).map(f => `<li>${f}</li>`).join("")}
+        </ul>
+        <div class="card-pricing">
+          <span class="price-current">${formatRD(prod.price)}</span>
+          <span class="price-old">${formatRD(prod.originalPrice)}</span>
+        </div>
+        <button type="button" class="btn-card-order" data-product-id="${prod.id}">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M19 7h-3V6a4 4 0 0 0-8 0v1H5a1 1 0 0 0-1 1v11a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V8a1 1 0 0 0-1-1zm-9-1a2 2 0 0 1 4 0v1h-4V6zm8 13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V9h2v1a1 1 0 0 0 2 0V9h4v1a1 1 0 0 0 2 0V9h2v10z"/>
+          </svg>
+          ORDENAR Y PAGAR EN CASA
+        </button>
+      </div>
+    `;
 
-    CONFIG.products.forEach((prod) => {
-      const card = document.createElement("div");
-      card.className = "product-card";
-      card.innerHTML = `
-        <div class="card-image-box">
-          <img src="${prod.image}" alt="${prod.name}" loading="lazy">
-          <span class="card-badge">${prod.badge}</span>
-          <span class="card-discount-tag">AHORRA ${formatRD(prod.discount)}</span>
-        </div>
-        <div class="card-body">
-          <span class="card-category">${prod.category}</span>
-          <h3 class="card-title">${prod.name}</h3>
-          <div class="card-rating">
-            ★★★★★ <strong>${prod.rating}</strong> <span>(${prod.reviewsCount} opiniones)</span>
-          </div>
-          <ul class="card-features">
-            ${prod.features.slice(0, 3).map(f => `<li>${f}</li>`).join("")}
-          </ul>
-          <div class="card-pricing">
-            <span class="price-current">${formatRD(prod.price)}</span>
-            <span class="price-old">${formatRD(prod.originalPrice)}</span>
-          </div>
-          <button type="button" class="btn-card-order" data-product-id="${prod.id}">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M19 7h-3V6a4 4 0 0 0-8 0v1H5a1 1 0 0 0-1 1v11a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V8a1 1 0 0 0-1-1zm-9-1a2 2 0 0 1 4 0v1h-4V6zm8 13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V9h2v1a1 1 0 0 0 2 0V9h4v1a1 1 0 0 0 2 0V9h2v10z"/>
-            </svg>
-            ORDENAR Y PAGAR EN CASA
-          </button>
-        </div>
-      `;
-      productsGrid.appendChild(card);
+    const orderBtn = card.querySelector(".btn-card-order");
+    if (orderBtn) {
+      orderBtn.addEventListener("click", () => {
+        selectProduct(prod.id);
+        scrollToCheckout();
+      });
+    }
+
+    return card;
+  };
+
+  // 3. Renderizar Productos Destacados (Exactamente 3 productos)
+  const renderFeaturedProducts = () => {
+    if (!featuredProductsGrid) return;
+    featuredProductsGrid.innerHTML = "";
+
+    // Filtramos los productos destacados (o los 3 primeros)
+    const featuredItems = CONFIG.products.filter(p => p.featured).slice(0, 3);
+    const itemsToShow = featuredItems.length === 3 ? featuredItems : CONFIG.products.slice(0, 3);
+
+    itemsToShow.forEach((prod) => {
+      const card = createProductCard(prod, true);
+      featuredProductsGrid.appendChild(card);
+    });
+  };
+
+  // 4. Renderizar Catálogo Completo de Productos (10 Productos con Filtro)
+  const renderAllProducts = (filterCategory = "all") => {
+    if (!allProductsGrid) return;
+    allProductsGrid.innerHTML = "";
+
+    const filtered = filterCategory === "all"
+      ? CONFIG.products
+      : CONFIG.products.filter(p => p.category === filterCategory);
+
+    filtered.forEach((prod) => {
+      const card = createProductCard(prod, false);
+      allProductsGrid.appendChild(card);
+    });
+  };
+
+  // Manejo de Filtros de Categoría
+  const initCategoryFilters = () => {
+    if (!categoryFilters) return;
+    const filterButtons = categoryFilters.querySelectorAll(".filter-pill");
+
+    filterButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        filterButtons.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        const category = btn.getAttribute("data-category");
+        renderAllProducts(category);
+      });
+    });
+  };
+
+  // 5. Manejo del Menú de Navegación Móvil
+  const initMobileNavigation = () => {
+    if (!mobileNavToggle || !mobileNavDropdown) return;
+
+    mobileNavToggle.addEventListener("click", () => {
+      const isExpanded = mobileNavToggle.getAttribute("aria-expanded") === "true";
+      mobileNavToggle.setAttribute("aria-expanded", !isExpanded);
+      mobileNavToggle.classList.toggle("open", !isExpanded);
+      mobileNavDropdown.classList.toggle("open", !isExpanded);
     });
 
-    // Eventos en botones de ordenar del catálogo
-    document.querySelectorAll(".btn-card-order").forEach((btn) => {
-      btn.addEventListener("click", (e) => {
-        const prodId = btn.getAttribute("data-product-id");
-        selectProduct(prodId);
-        scrollToCheckout();
+    // Cerrar el menú al pulsar cualquier enlace del menú móvil
+    const mobileLinks = mobileNavDropdown.querySelectorAll(".mobile-nav-link");
+    mobileLinks.forEach((link) => {
+      link.addEventListener("click", () => {
+        mobileNavToggle.setAttribute("aria-expanded", "false");
+        mobileNavToggle.classList.remove("open");
+        mobileNavDropdown.classList.remove("open");
       });
     });
   };
@@ -422,12 +491,45 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
+  // 12. Navegación activa con scroll
+  const initScrollSpy = () => {
+    const sections = document.querySelectorAll("section[id]");
+    const navLinks = document.querySelectorAll(".site-nav .nav-link");
+
+    if (!sections.length || !navLinks.length) return;
+
+    window.addEventListener("scroll", () => {
+      let current = "";
+      const scrollPos = window.scrollY + 140;
+
+      sections.forEach((section) => {
+        const top = section.offsetTop;
+        const height = section.offsetHeight;
+        if (scrollPos >= top && scrollPos < top + height) {
+          current = section.getAttribute("id");
+        }
+      });
+
+      navLinks.forEach((link) => {
+        link.classList.remove("active");
+        const href = link.getAttribute("href");
+        if (href && (href === `#${current}` || (current === "" && href === "#"))) {
+          link.classList.add("active");
+        }
+      });
+    }, { passive: true });
+  };
+
   // Inicialización de componentes
   initThemeSwitcher();
+  initMobileNavigation();
+  initCategoryFilters();
+  initScrollSpy();
   initQuantityControl();
   initProvinces();
   initProductSelector();
-  renderCatalog();
+  renderFeaturedProducts();
+  renderAllProducts("all");
   renderTestimonials();
   updatePriceCalculations();
 });

@@ -61,6 +61,21 @@
         </div>
       </a>
 
+      <!-- Navegación Principal en el Navbar -->
+      <nav class="site-nav" id="siteNav" aria-label="Navegación principal">
+        <ul class="nav-list">
+          <li class="nav-item"><a href="#" class="nav-link">Inicio</a></li>
+          <li class="nav-item"><a href="#destacados" class="nav-link">Destacados</a></li>
+          <li class="nav-item">
+            <a href="#productos" class="nav-link nav-link-highlight">
+              Productos
+              <span class="nav-badge-count">10</span>
+            </a>
+          </li>
+          <li class="nav-item"><a href="#testimonios" class="nav-link">Opiniones</a></li>
+        </ul>
+      </nav>
+
       <div class="header-actions">
         <!-- Selector de Modo Claro / Oscuro -->
         <button id="themeToggleBtn" class="theme-toggle-btn" type="button" aria-label="Cambiar tema de color" title="Modo Claro / Oscuro">
@@ -92,9 +107,27 @@
             <path
               d="M19 7h-3V6a4 4 0 0 0-8 0v1H5a1 1 0 0 0-1 1v11a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V8a1 1 0 0 0-1-1zm-9-1a2 2 0 0 1 4 0v1h-4V6zm8 13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V9h2v1a1 1 0 0 0 2 0V9h4v1a1 1 0 0 0 2 0V9h2v10z" />
           </svg>
-          <span>Ordena y Paga en Casa</span>
+          <span>Pagar en Casa</span>
         </a>
+
+        <!-- Botón Menú Móvil -->
+        <button id="mobileNavToggle" class="mobile-nav-toggle" type="button" aria-label="Abrir menú de navegación" aria-expanded="false">
+          <span class="hamburger-bar"></span>
+          <span class="hamburger-bar"></span>
+          <span class="hamburger-bar"></span>
+        </button>
       </div>
+    </div>
+
+    <!-- Menú Desplegable en Móvil -->
+    <div class="mobile-nav-dropdown" id="mobileNavDropdown">
+      <ul class="mobile-nav-list">
+        <li><a href="#" class="mobile-nav-link">🌿 Inicio</a></li>
+        <li><a href="#destacados" class="mobile-nav-link">⭐ Destacados (3)</a></li>
+        <li><a href="#productos" class="mobile-nav-link">🍃 Productos (10)</a></li>
+        <li><a href="#testimonios" class="mobile-nav-link">💬 Opiniones</a></li>
+        <li><a href="#checkoutSection" class="mobile-nav-link mobile-cta btn-go-checkout">🛒 Ordenar y Pagar al Recibir</a></li>
+      </ul>
     </div>
   </header>
 
@@ -121,8 +154,8 @@
             </svg>
             ORDENA AQUÍ Y PAGA EN CASA
           </a>
-          <a href="#catalogo" class="btn-hero-secondary">
-            Ver Productos ↓
+          <a href="#productos" class="btn-hero-secondary">
+            Ver Productos (10) ↓
           </a>
         </div>
       </div>
@@ -205,19 +238,69 @@
     </div>
   </section>
 
-  <!-- 5. Catálogo Multi-Producto -->
-  <section class="catalog-section" id="catalogo">
+  <!-- 5. Productos Destacados (Solo 3 productos: los más destacados o más nuevos) -->
+  <section class="catalog-section featured-section" id="destacados">
     <div class="container">
       <div class="section-header">
-        <span class="section-pill">Nuestra Colección Botánica</span>
+        <span class="section-pill">⭐ Lo Más Popular & Novedades</span>
         <h2>Productos Destacados</h2>
-        <p>Elige tu producto preferido o selecciona una oferta de ahorro. Al pulsar ordenar, tu pedido se cargará de
-          inmediato en el formulario de pago contra entrega.</p>
+        <p>Los 3 favoritos más elegidos por nuestros clientes: resultados visibles, fórmulas galardonadas y máxima eficacia natural comprobada.</p>
       </div>
 
-      <!-- Grid dinámico generado desde config.js -->
-      <div class="products-grid" id="productsGrid">
-        <!-- Generado dinámicamente por JS -->
+      <!-- Grid de los 3 productos destacados -->
+      <div class="products-grid featured-grid" id="featuredProductsGrid">
+        <!-- Renderizado dinámico: exactamente 3 productos destacados -->
+      </div>
+
+      <!-- Banner hacia el catálogo completo -->
+      <div class="catalog-invite-bar">
+        <div class="invite-info">
+          <div class="invite-badge">🍃 10 PRODUCTOS DISPONIBLES</div>
+          <h3>¿Deseas ver todas nuestras fórmulas naturales?</h3>
+          <p>Explora nuestro catálogo completo de 10 productos orgánicos para el cuidado capilar, facial, corporal y bienestar.</p>
+        </div>
+        <a href="#productos" class="btn-invite-action">
+          <span>Ver Catálogo Completo (10)</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Catálogo Completo de Productos (Alrededor de 10 Productos Orgánicos) -->
+  <section class="catalog-section all-products-section" id="productos">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-pill">🌿 Catálogo Completo de Productos</span>
+        <h2>Nuestra Colección de Belleza & Salud Orgánica</h2>
+        <p>10 productos artesanales y certificados, libres de químicos abrasivos. Al presionar <strong>Ordenar y Pagar en Casa</strong>, tu elección se cargará al instante en el checkout para entrega a domicilio.</p>
+      </div>
+
+      <!-- Filtros interactivos por Categoría -->
+      <div class="catalog-filter-bar" id="categoryFilters">
+        <button class="filter-pill active" data-category="all" type="button">
+          Todos los Productos <span class="pill-badge">10</span>
+        </button>
+        <button class="filter-pill" data-category="Cuidado Facial" type="button">
+          Cuidado Facial <span class="pill-badge">5</span>
+        </button>
+        <button class="filter-pill" data-category="Cuidado Capilar" type="button">
+          Cuidado Capilar <span class="pill-badge">2</span>
+        </button>
+        <button class="filter-pill" data-category="Cuidado Corporal" type="button">
+          Cuidado Corporal <span class="pill-badge">2</span>
+        </button>
+        <button class="filter-pill" data-category="Bienestar & Aromaterapia" type="button">
+          Bienestar <span class="pill-badge">1</span>
+        </button>
+      </div>
+
+      <!-- Grid de los 10 productos -->
+      <div class="products-grid all-products-grid" id="allProductsGrid">
+        <!-- Renderizado dinámico de los 10 productos por JS -->
       </div>
     </div>
   </section>
@@ -462,7 +545,7 @@
   </section>
 
   <!-- 7. Opiniones y Testimonios de Clientes en RD -->
-  <section class="testimonials-section">
+  <section class="testimonials-section" id="testimonios">
     <div class="container">
       <div class="section-header">
         <span class="section-pill">Clientes Felices en RD</span>
