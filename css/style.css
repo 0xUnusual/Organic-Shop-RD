@@ -1348,209 +1348,582 @@ img {
   margin-bottom: 12px;
 }
 
-.preview-pricing-box {
-  display: flex;
-  align-items: baseline;
-  gap: 12px;
-  padding-bottom: 16px;
-  margin-bottom: 16px;
-  border-bottom: 1px solid #f1f5f9;
-}
-
-.preview-price-current {
-  font-size: 1.85rem;
-  font-weight: 900;
-  color: #0f172a;
-}
-
-.preview-price-old {
-  font-size: 1.05rem;
-  color: #94a3b8;
-  text-decoration: line-through;
-}
-
-.preview-savings {
-  background: #fee2e2;
-  color: #dc2626;
-  font-size: 0.78rem;
-  font-weight: 800;
-  padding: 3px 8px;
-  border-radius: 6px;
-}
-
-.preview-desc-box {
-  margin-bottom: 16px;
-}
-
-.preview-desc-box h4,
-.preview-features-box h4 {
-  font-size: 0.86rem;
-  font-weight: 700;
-  text-transform: uppercase;
+.preview-desc-lead {
+  font-size: 0.94rem;
   color: #475569;
-  letter-spacing: 0.4px;
-  margin: 0 0 6px;
-}
-
-.preview-desc-box p {
-  font-size: 0.92rem;
-  color: #334155;
   line-height: 1.55;
-  margin: 0;
+  margin: 0 0 16px;
 }
 
-.preview-features-box {
-  margin-bottom: 20px;
+/* ===================================================
+   SECCIÓN DE TRATAMIENTOS / PACKS (IDÉNTICO A LA FOTO)
+   =================================================== */
+.treatment-section {
+  background: #fdfaf3;
+  border: 1.5px solid #bdd7b8;
+  border-radius: 18px;
+  padding: 16px 18px;
+  margin-bottom: 22px;
 }
 
-.preview-features-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.preview-features-list li {
-  font-size: 0.86rem;
-  color: #475569;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.feat-check {
-  color: #16a34a;
-  font-weight: 800;
-  font-size: 0.95rem;
-}
-
-/* Caja de Compartir Enlace */
-.preview-share-box {
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
-  border-radius: 14px;
-  padding: 14px 16px;
-  margin-bottom: 20px;
-}
-
-.share-box-header {
+.treatment-section-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 8px;
-  font-size: 0.78rem;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+  gap: 6px;
 }
 
-.share-label {
-  font-weight: 700;
-  color: #1e293b;
-}
-
-.share-tip {
-  color: #64748b;
-  font-size: 0.72rem;
-}
-
-.share-input-row {
+.treatment-title-group {
   display: flex;
+  align-items: center;
   gap: 8px;
 }
 
-.share-input-row input {
-  flex: 1;
-  background: #ffffff;
-  border: 1.5px solid #cbd5e1;
-  border-radius: 8px;
-  padding: 8px 12px;
-  font-size: 0.8rem;
-  color: #334155;
-  outline: none;
-  font-family: monospace;
+.treatment-fire-badge {
+  background: #fee2e2;
+  color: #dc2626;
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 6px;
+  letter-spacing: 0.3px;
 }
 
-.btn-copy-link {
+.treatment-section-header h4 {
+  font-size: 1rem;
+  font-weight: 800;
+  color: #0f2e1c;
+  margin: 0;
+}
+
+.treatment-hint {
+  font-size: 0.76rem;
+  color: #527960;
+  font-weight: 600;
+}
+
+.treatment-cards-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Tarjeta individual de Tratamiento */
+.treatment-card {
+  background: #fbf6ea;
+  border: 1.5px solid #2d5a3c;
+  border-radius: 14px;
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+}
+
+.treatment-card:hover {
+  border-color: #16a34a;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(22, 163, 74, 0.14);
+}
+
+.treatment-card.selected {
+  border: 2.5px solid #16a34a;
+  background: #f4faee;
+  box-shadow: 0 8px 24px rgba(22, 163, 74, 0.22);
+}
+
+.treatment-card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex: 1;
+  min-width: 0;
+}
+
+/* Pill badge (TRATAMIENTO · 15 DÍAS) */
+.treatment-badge {
+  background: #c6e355;
+  color: #0b2b17;
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  margin-bottom: 6px;
+  display: inline-block;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+/* Título (1 Frasco, 2 Frascos, 3 Frascos) */
+.treatment-title {
+  font-size: 1.65rem;
+  font-weight: 900;
+  color: #0c2c1a;
+  line-height: 1.1;
+  margin: 0 0 4px;
+  letter-spacing: -0.5px;
+}
+
+/* Subtítulo (Limpiador de colon · pérdida de peso) */
+.treatment-subtitle {
+  font-size: 0.88rem;
+  color: #3f604b;
+  font-weight: 600;
+  margin: 0 0 8px;
+  line-height: 1.25;
+}
+
+/* Precio en RD$ grande */
+.treatment-price {
+  font-size: 1.85rem;
+  font-weight: 900;
+  color: #008a3e;
+  line-height: 1;
+}
+
+/* Contenedor de Botellas / Visual */
+.treatment-bottles-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  height: 95px;
+  min-width: 100px;
+  padding-left: 10px;
+}
+
+.treatment-bottle-img {
+  height: 90px;
+  width: auto;
+  max-width: 72px;
+  object-fit: contain;
+  filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.16));
+  transition: transform 0.2s ease;
+}
+
+.treatment-bottle-img.bottle-2 {
+  margin-left: -22px;
+}
+
+.treatment-bottle-img.bottle-3 {
+  margin-left: -24px;
+}
+
+.treatment-card:hover .treatment-bottle-img {
+  transform: scale(1.04);
+}
+
+.treatment-selected-pill {
+  position: absolute;
+  top: 10px;
+  right: 14px;
   background: #16a34a;
   color: #ffffff;
+  font-size: 0.68rem;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 12px;
+  display: none;
+  align-items: center;
+  gap: 4px;
+}
+
+.treatment-card.selected .treatment-selected-pill {
+  display: inline-flex;
+}
+
+.treatment-tag-pill {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  background: #ea580c;
+  color: #ffffff;
+  font-size: 0.68rem;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 12px;
+}
+
+.treatment-card.selected .treatment-tag-pill {
+  display: none;
+}
+
+/* ===================================================
+   GUÍAS INTERACTIVAS: BENEFICIOS / MODO DE USO / INGREDIENTES
+   =================================================== */
+.product-guides-container {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 22px;
+}
+
+.guide-tabs-nav {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  background: #f1f5f9;
+  padding: 4px;
+  gap: 4px;
+}
+
+.guide-tab-btn {
+  background: transparent;
   border: none;
-  border-radius: 8px;
-  padding: 8px 14px;
+  padding: 11px 8px;
+  border-radius: 10px;
   font-family: 'Outfit', sans-serif;
   font-size: 0.82rem;
   font-weight: 700;
+  color: #64748b;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 6px;
   cursor: pointer;
-  white-space: nowrap;
   transition: all 0.2s ease;
 }
 
-.btn-copy-link:hover {
-  background: #15803d;
+.guide-tab-btn:hover {
+  color: #1e293b;
 }
 
-.btn-share-whatsapp {
-  background: #25d366;
-  color: #ffffff;
-  border-radius: 8px;
-  padding: 8px 12px;
+.guide-tab-btn.active {
+  background: #ffffff;
+  color: #16a34a;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.guide-tab-content {
+  padding: 18px;
+}
+
+.guide-pane {
+  display: none;
+  animation: fadeInPane 0.25s ease-out;
+}
+
+.guide-pane.active {
+  display: block;
+}
+
+@keyframes fadeInPane {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Grid de Beneficios */
+.benefits-detailed-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+@media (max-width: 600px) {
+  .benefits-detailed-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.benefit-detail-card {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 14px;
   display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 0.82rem;
-  font-weight: 700;
-  transition: all 0.2s ease;
+  gap: 12px;
 }
 
-.btn-share-whatsapp:hover {
-  background: #1da851;
+.benefit-detail-icon {
+  font-size: 1.6rem;
+  line-height: 1;
+  flex-shrink: 0;
 }
 
-@media (max-width: 540px) {
-  .share-input-row {
-    flex-wrap: wrap;
-  }
-  .share-input-row input {
-    width: 100%;
-    flex: none;
-  }
-  .btn-copy-link,
-  .btn-share-whatsapp {
-    flex: 1;
-    justify-content: center;
-  }
+.benefit-detail-info h5 {
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0 0 4px;
 }
 
-/* Botón de Ordenar dentro de la Vista Previa */
-.preview-cta-row {
-  margin-top: auto;
+.benefit-detail-info p {
+  font-size: 0.8rem;
+  color: #475569;
+  line-height: 1.45;
+  margin: 0;
 }
 
-.btn-preview-order {
-  width: 100%;
+/* Guía de Cómo Tomar o Aplicar */
+.usage-guide-card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.usage-guide-header {
+  border-bottom: 1px solid #f1f5f9;
+  padding-bottom: 10px;
+}
+
+.usage-header-badge {
+  display: inline-block;
+  background: #dcfce7;
+  color: #15803d;
+  font-size: 0.68rem;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 6px;
+  margin-bottom: 4px;
+}
+
+.usage-guide-header h5 {
+  font-size: 1rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0 0 4px;
+}
+
+.usage-guide-header p {
+  font-size: 0.8rem;
+  color: #64748b;
+  margin: 0;
+}
+
+.usage-steps-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.usage-step-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 12px 14px;
+}
+
+.usage-step-num {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
   background: #16a34a;
   color: #ffffff;
-  border: none;
-  border-radius: 12px;
-  padding: 15px 20px;
-  font-family: 'Outfit', sans-serif;
-  font-size: 1rem;
+  font-size: 0.78rem;
   font-weight: 800;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  flex-shrink: 0;
+}
+
+.usage-step-content strong {
+  display: block;
+  font-size: 0.86rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin-bottom: 3px;
+}
+
+.usage-step-content p {
+  font-size: 0.82rem;
+  color: #475569;
+  line-height: 1.45;
+  margin: 0;
+}
+
+.usage-protip-box {
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  color: #166534;
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 10px 14px;
+  border-radius: 10px;
+  line-height: 1.45;
+}
+
+/* Panel Ingredientes */
+.ingredients-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ingredients-header h5 {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0 0 4px;
+}
+
+.ingredients-header p {
+  font-size: 0.82rem;
+  color: #64748b;
+  margin: 0;
+}
+
+.ingredients-content-box {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 12px 14px;
+}
+
+.ingredients-content-box strong {
+  display: block;
+  font-size: 0.82rem;
+  color: #16a34a;
+  margin-bottom: 4px;
+}
+
+.ingredients-content-box p {
+  font-size: 0.85rem;
+  color: #334155;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.ingredients-seals-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.seal-badge {
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  color: #166534;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 6px 4px;
+  border-radius: 8px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+/* ===================================================
+   BOTONES INFERIORES: COMPRAR AHORA Y EXPLORAR MÁS PRODUCTOS
+   =================================================== */
+.preview-footer-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-top: 14px;
+  border-top: 1px solid #f1f5f9;
+  margin-top: 6px;
+}
+
+.preview-actions-group {
+  display: grid;
+  grid-template-columns: 1.45fr 1fr;
+  gap: 12px;
+}
+
+@media (max-width: 680px) {
+  .preview-actions-group {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Botón Comprar Ahora */
+.btn-preview-buy-now {
+  background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+  color: #ffffff;
+  border: none;
+  border-radius: 14px;
+  padding: 14px 18px;
+  font-family: 'Outfit', sans-serif;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
   box-shadow: 0 6px 20px rgba(22, 163, 74, 0.35);
+  transition: all 0.22s ease;
+}
+
+.btn-preview-buy-now:hover {
+  background: linear-gradient(135deg, #15803d 0%, #166534 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(22, 163, 74, 0.45);
+}
+
+.btn-buy-labels {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  line-height: 1.15;
+}
+
+.btn-buy-title {
+  font-size: 0.88rem;
+  font-weight: 800;
+  letter-spacing: 0.3px;
+}
+
+.btn-buy-total {
+  font-size: 1.15rem;
+  font-weight: 900;
+  color: #bbf7d0;
+}
+
+/* Botón Explorar Más Productos */
+.btn-preview-explore {
+  background: #f8fafc;
+  color: #334155;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 14px;
+  padding: 14px 18px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.92rem;
+  font-weight: 800;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   transition: all 0.2s ease;
 }
 
-.btn-preview-order:hover {
-  background: #15803d;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(22, 163, 74, 0.45);
+.btn-preview-explore:hover {
+  background: #f1f5f9;
+  border-color: #94a3b8;
+  color: #0f172a;
+}
+
+/* Reafirmación y Garantías del Footer */
+.preview-footer-guarantees {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  font-size: 0.74rem;
+  color: #64748b;
+  font-weight: 600;
+  text-align: center;
+}
+
+.foot-divider {
+  color: #cbd5e1;
 }
 
 /* Toast Flotante */
@@ -2097,43 +2470,148 @@ img {
   color: #cbd5e1;
 }
 
-[data-theme="dark"] .preview-share-box {
+[data-theme="dark"] .preview-desc-lead {
+  color: #cbd5e1;
+}
+
+[data-theme="dark"] .treatment-section {
+  background: #0d1a16;
+  border-color: #1f422e;
+}
+
+[data-theme="dark"] .treatment-section-header h4 {
+  color: #f8fafc;
+}
+
+[data-theme="dark"] .treatment-hint {
+  color: #86efac;
+}
+
+[data-theme="dark"] .treatment-card {
+  background: #13251c;
+  border-color: #274835;
+}
+
+[data-theme="dark"] .treatment-card:hover {
+  border-color: #22c55e;
+}
+
+[data-theme="dark"] .treatment-card.selected {
+  background: #163624;
+  border-color: #22c55e;
+  box-shadow: 0 8px 25px rgba(34, 197, 94, 0.25);
+}
+
+[data-theme="dark"] .treatment-title {
+  color: #f8fafc;
+}
+
+[data-theme="dark"] .treatment-subtitle {
+  color: #94a3b8;
+}
+
+[data-theme="dark"] .treatment-price {
+  color: #4ade80;
+}
+
+[data-theme="dark"] .product-guides-container {
+  background: #142126;
+  border-color: var(--border-light);
+}
+
+[data-theme="dark"] .guide-tabs-nav {
+  background: #0f181c;
+}
+
+[data-theme="dark"] .guide-tab-btn {
+  color: #94a3b8;
+}
+
+[data-theme="dark"] .guide-tab-btn:hover {
+  color: #f8fafc;
+}
+
+[data-theme="dark"] .guide-tab-btn.active {
+  background: #1e3139;
+  color: #4ade80;
+}
+
+[data-theme="dark"] .benefit-detail-card {
   background: #0f181c;
   border-color: var(--border-light);
 }
 
-[data-theme="dark"] .share-label {
+[data-theme="dark"] .benefit-detail-info h5 {
   color: #f8fafc;
 }
 
-[data-theme="dark"] .share-tip {
+[data-theme="dark"] .benefit-detail-info p {
   color: #94a3b8;
 }
 
-[data-theme="dark"] .share-input-row input {
-  background: #18282f;
-  border-color: #27434f;
-  color: #cbd5e1;
-}
-
-[data-theme="dark"] .btn-card-preview,
-[data-theme="dark"] .btn-card-share {
-  background: #1a2a31;
+[data-theme="dark"] .usage-guide-header {
   border-color: var(--border-light);
+}
+
+[data-theme="dark"] .usage-guide-header h5 {
+  color: #f8fafc;
+}
+
+[data-theme="dark"] .usage-step-item {
+  background: #0f181c;
+  border-color: var(--border-light);
+}
+
+[data-theme="dark"] .usage-step-content strong {
+  color: #f8fafc;
+}
+
+[data-theme="dark"] .usage-step-content p {
   color: #cbd5e1;
 }
 
-[data-theme="dark"] .btn-card-preview:hover,
-[data-theme="dark"] .btn-card-share:hover {
-  background: rgba(34, 197, 94, 0.15);
-  color: #4ade80;
-  border-color: #22c55e;
+[data-theme="dark"] .usage-protip-box {
+  background: rgba(34, 197, 94, 0.12);
+  border-color: rgba(34, 197, 94, 0.25);
+  color: #86efac;
 }
 
-[data-theme="dark"] .overlay-preview-pill {
-  background: rgba(20, 33, 38, 0.95);
+[data-theme="dark"] .ingredients-header h5 {
   color: #f8fafc;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="dark"] .ingredients-content-box {
+  background: #0f181c;
+  border-color: var(--border-light);
+}
+
+[data-theme="dark"] .ingredients-content-box p {
+  color: #cbd5e1;
+}
+
+[data-theme="dark"] .seal-badge {
+  background: rgba(34, 197, 94, 0.12);
+  border-color: rgba(34, 197, 94, 0.25);
+  color: #86efac;
+}
+
+[data-theme="dark"] .preview-footer-actions {
+  border-color: var(--border-light);
+}
+
+[data-theme="dark"] .btn-preview-explore {
+  background: #1e3139;
+  border-color: #334b55;
+  color: #f8fafc;
+}
+
+[data-theme="dark"] .btn-preview-explore:hover {
+  background: #28414d;
+  color: #ffffff;
+}
+
+[data-theme="dark"] .foot-divider {
+  color: #334b55;
 }
 
 [data-theme="dark"] .toast-notification {

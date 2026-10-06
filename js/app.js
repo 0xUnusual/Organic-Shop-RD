@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnDirectWA = document.getElementById("btnDirectWA");
   const modalOrderNumber = document.getElementById("modalOrderNumber");
 
-  // Modal de Vista Previa de Producto
+  // Modal de Vista Previa de Producto con Tratamientos y Guías
   const productPreviewModal = document.getElementById("productPreviewModal");
   const btnClosePreview = document.getElementById("btnClosePreview");
   const previewImg = document.getElementById("previewImg");
@@ -49,17 +49,31 @@ document.addEventListener("DOMContentLoaded", () => {
   const previewRatingScore = document.getElementById("previewRatingScore");
   const previewReviewsCount = document.getElementById("previewReviewsCount");
   const previewTitle = document.getElementById("previewTitle");
-  const previewPriceCurrent = document.getElementById("previewPriceCurrent");
-  const previewPriceOld = document.getElementById("previewPriceOld");
-  const previewSavings = document.getElementById("previewSavings");
   const previewDesc = document.getElementById("previewDesc");
-  const previewFeaturesList = document.getElementById("previewFeaturesList");
+
+  // Elementos de la Sección de Tratamientos (Foto de Referencia)
+  const previewTreatmentPacks = document.getElementById("previewTreatmentPacks");
+
+  // Elementos de las Guías Interactivas (Pestañas)
+  const guideTabsNav = document.getElementById("guideTabsNav");
+  const tabUsageIcon = document.getElementById("tabUsageIcon");
+  const tabUsageText = document.getElementById("tabUsageText");
+  const previewBenefitsGrid = document.getElementById("previewBenefitsGrid");
+  const previewUsageTypeBadge = document.getElementById("previewUsageTypeBadge");
+  const previewUsageTitle = document.getElementById("previewUsageTitle");
+  const previewUsageSubtitle = document.getElementById("previewUsageSubtitle");
+  const previewUsageStepsList = document.getElementById("previewUsageStepsList");
+  const previewUsageProTip = document.getElementById("previewUsageProTip");
+  const previewIngredientsText = document.getElementById("previewIngredientsText");
+
+  // Caja de Compartir y Botones de Acción
   const previewShareUrl = document.getElementById("previewShareUrl");
   const btnCopyProductLink = document.getElementById("btnCopyProductLink");
   const btnCopyText = document.getElementById("btnCopyText");
   const btnShareWhatsApp = document.getElementById("btnShareWhatsApp");
-  const btnPreviewOrder = document.getElementById("btnPreviewOrder");
-  const previewBtnTotal = document.getElementById("previewBtnTotal");
+  const btnPreviewBuyNow = document.getElementById("btnPreviewBuyNow");
+  const previewBtnBuyPrice = document.getElementById("previewBtnBuyPrice");
+  const btnPreviewExplore = document.getElementById("btnPreviewExplore");
 
   // Notificación Toast Flotante
   const toastNotification = document.getElementById("toastNotification");
@@ -155,7 +169,6 @@ document.addEventListener("DOMContentLoaded", () => {
       document.body.removeChild(tempInput);
     }
 
-    // Feedback visual en el botón de la modal si está abierta
     if (btnCopyText) {
       const originalText = btnCopyText.textContent;
       btnCopyText.textContent = "¡Copiado! ✓";
@@ -167,11 +180,53 @@ document.addEventListener("DOMContentLoaded", () => {
     showToast(`¡Enlace copiado al portapapeles! 📋 Listo para compartir.`);
   };
 
-  // Abrir Modal de Vista Previa Detallada
-  const openProductPreview = (productId) => {
+  // Inicializador de Pestañas de Guía (Beneficios / Cómo Tomar o Aplicar / Ingredientes)
+  const initGuideTabs = () => {
+    if (!guideTabsNav) return;
+    const tabButtons = guideTabsNav.querySelectorAll(".guide-tab-btn");
+    tabButtons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        tabButtons.forEach(b => {
+          b.classList.remove("active");
+          b.setAttribute("aria-selected", "false");
+        });
+        btn.classList.add("active");
+        btn.setAttribute("aria-selected", "true");
+
+        const targetTab = btn.getAttribute("data-tab");
+        document.querySelectorAll(".guide-pane").forEach(pane => {
+          pane.classList.remove("active");
+        });
+
+        if (targetTab === "benefits") {
+          const p = document.getElementById("paneBenefits");
+          if (p) p.classList.add("active");
+        } else if (targetTab === "usage") {
+          const p = document.getElementById("paneUsage");
+          if (p) p.classList.add("active");
+        } else if (targetTab === "ingredients") {
+          const p = document.getElementById("paneIngredients");
+          if (p) p.classList.add("active");
+        }
+      });
+    });
+  };
+
+  // Abrir Modal de Vista Previa Detallada con Tratamientos y Guías
+  const openProductPreview = (productId, requestedPackQty = null) => {
     const prod = CONFIG.products.find(p => p.id === productId);
     if (!prod || !productPreviewModal) return;
 
+    // Determinar paquete seleccionado inicialmente
+    let selectedPack = null;
+    if (requestedPackQty && prod.packs) {
+      selectedPack = prod.packs.find(pk => pk.quantity === Number(requestedPackQty));
+    }
+    if (!selectedPack && prod.packs && prod.packs.length > 0) {
+      selectedPack = prod.packs.find(pk => pk.popular) || prod.packs[0];
+    }
+
+    // Multimedia y datos generales
     if (previewImg) {
       previewImg.src = prod.image;
       previewImg.alt = prod.name;
@@ -182,36 +237,139 @@ document.addEventListener("DOMContentLoaded", () => {
     if (previewRatingScore) previewRatingScore.textContent = prod.rating;
     if (previewReviewsCount) previewReviewsCount.textContent = `(${prod.reviewsCount} opiniones verificadas)`;
     if (previewTitle) previewTitle.textContent = prod.name;
-    if (previewPriceCurrent) previewPriceCurrent.textContent = formatRD(prod.price);
-    if (previewPriceOld) previewPriceOld.textContent = formatRD(prod.originalPrice);
-    if (previewSavings) previewSavings.textContent = `Ahorro: ${formatRD(prod.discount)}`;
     if (previewDesc) previewDesc.textContent = prod.description;
 
-    if (previewFeaturesList) {
-      previewFeaturesList.innerHTML = prod.features.map(f => `
-        <li>
-          <span class="feat-check">✓</span>
-          <span>${f}</span>
-        </li>
+    // RENDERIZAR TARJETAS DE TRATAMIENTO (IDÉNTICO A LA FOTO DE REFERENCIA)
+    if (previewTreatmentPacks && prod.packs && prod.packs.length > 0) {
+      previewTreatmentPacks.innerHTML = "";
+      prod.packs.forEach((pk) => {
+        const isSelected = selectedPack && selectedPack.quantity === pk.quantity;
+        const card = document.createElement("div");
+        card.className = `treatment-card ${isSelected ? "selected" : ""}`;
+        card.setAttribute("data-qty", pk.quantity);
+
+        // Renderizado visual de frascos (1, 2 o 3 frascos superpuestos como en la imagen)
+        const bottleCount = pk.bottleCount || pk.quantity || 1;
+        let bottlesHtml = '';
+        for (let b = 1; b <= Math.min(bottleCount, 3); b++) {
+          bottlesHtml += `<img src="${prod.image}" alt="${pk.label}" class="treatment-bottle-img bottle-${b}">`;
+        }
+
+        card.innerHTML = `
+          <div class="treatment-card-content">
+            <span class="treatment-badge">${pk.treatmentBadge || `TRATAMIENTO · ${pk.quantity * 15} DÍAS`}</span>
+            <h4 class="treatment-title">${pk.label}</h4>
+            <div class="treatment-subtitle">${pk.subtitle || prod.category}</div>
+            <div class="treatment-price">${formatRD(pk.price)}</div>
+          </div>
+          <div class="treatment-bottles-wrapper">
+            ${bottlesHtml}
+          </div>
+          <span class="treatment-selected-pill">✓ SELECCIONADO</span>
+          ${pk.tag ? `<span class="treatment-tag-pill">${pk.tag}</span>` : ''}
+        `;
+
+        // Interacción al hacer clic en la tarjeta
+        card.addEventListener("click", () => {
+          selectedPack = pk;
+          previewTreatmentPacks.querySelectorAll(".treatment-card").forEach(c => c.classList.remove("selected"));
+          card.classList.add("selected");
+          if (previewBtnBuyPrice) {
+            previewBtnBuyPrice.textContent = formatRD(pk.price);
+          }
+        });
+
+        previewTreatmentPacks.appendChild(card);
+      });
+    }
+
+    // GUÍA DE USO: Personalizar etiquetas según si es suplemento (tomar) o tópico (aplicar)
+    const isTomar = prod.usageType === "tomar";
+    if (tabUsageIcon) tabUsageIcon.textContent = isTomar ? "💊" : "🧴";
+    if (tabUsageText) tabUsageText.textContent = isTomar ? "Cómo Tomar" : "Cómo Aplicar";
+    if (previewUsageTypeBadge) {
+      previewUsageTypeBadge.textContent = isTomar ? "💊 GUÍA DE CÓMO TOMAR" : "🧴 GUÍA DE CÓMO APLICAR";
+    }
+
+    // Renderizar Guía de Beneficios
+    if (previewBenefitsGrid && prod.benefitsDetailed) {
+      previewBenefitsGrid.innerHTML = prod.benefitsDetailed.map(b => `
+        <div class="benefit-detail-card">
+          <span class="benefit-detail-icon">${b.icon}</span>
+          <div class="benefit-detail-info">
+            <h5>${b.title}</h5>
+            <p>${b.desc}</p>
+          </div>
+        </div>
       `).join("");
     }
 
+    // Renderizar Guía Paso a Paso de Uso
+    if (previewUsageTitle) previewUsageTitle.textContent = prod.usageTitle || "¿Cómo utilizar este producto?";
+    if (previewUsageSubtitle) previewUsageSubtitle.textContent = prod.usageSubtitle || "Guía paso a paso para resultados óptimos y seguros";
+    if (previewUsageStepsList && prod.usageSteps) {
+      previewUsageStepsList.innerHTML = prod.usageSteps.map(s => `
+        <div class="usage-step-item">
+          <div class="usage-step-num">${s.step}</div>
+          <div class="usage-step-content">
+            <strong>${s.title}</strong>
+            <p>${s.text}</p>
+          </div>
+        </div>
+      `).join("");
+    }
+    if (previewUsageProTip) {
+      previewUsageProTip.textContent = prod.usageProTip || "💡 Consejo Pro: Mantén constancia diaria para maximizar los resultados botánicos comprobados.";
+    }
+
+    // Renderizar Ingredientes
+    if (previewIngredientsText) {
+      previewIngredientsText.textContent = prod.ingredients || "Fórmula botánica 100% orgánica certificada, sin químicos tóxicos.";
+    }
+
+    // Resetear a pestaña inicial (Beneficios)
+    if (guideTabsNav) {
+      guideTabsNav.querySelectorAll(".guide-tab-btn").forEach(b => {
+        b.classList.toggle("active", b.getAttribute("data-tab") === "benefits");
+        b.setAttribute("aria-selected", b.getAttribute("data-tab") === "benefits" ? "true" : "false");
+      });
+      document.querySelectorAll(".guide-pane").forEach(p => {
+        p.classList.toggle("active", p.id === "paneBenefits");
+      });
+    }
+
+    // Configurar caja de compartir enlace
     const shareUrl = getProductShareUrl(prod.id);
     if (previewShareUrl) previewShareUrl.value = shareUrl;
 
     if (btnShareWhatsApp) {
-      const waShareText = `🌿 ¡Mira este producto orgánico de Organic Shop RD! 🇩🇴\n*${prod.name}*\n💰 Precio especial: ${formatRD(prod.price)}\n🚚 Paga en efectivo al recibir en casa.\n👉 ${shareUrl}`;
+      const currentPrice = selectedPack ? selectedPack.price : prod.price;
+      const waShareText = `🌿 ¡Mira este producto de Organic Shop RD! 🇩🇴\n*${prod.name}*\n💰 Precio especial: ${formatRD(currentPrice)}\n🚚 Paga en efectivo al recibir en casa.\n👉 ${shareUrl}`;
       btnShareWhatsApp.href = `https://api.whatsapp.com/send?text=${encodeURIComponent(waShareText)}`;
     }
 
-    if (previewBtnTotal) previewBtnTotal.textContent = formatRD(prod.price);
+    // Actualizar precio en el botón de compra
+    if (previewBtnBuyPrice) {
+      previewBtnBuyPrice.textContent = formatRD(selectedPack ? selectedPack.price : prod.price);
+    }
 
-    // Botón ordenar dentro de la vista previa
-    if (btnPreviewOrder) {
-      btnPreviewOrder.onclick = () => {
+    // Botón 1: COMPRAR AHORA -> Carga pack en checkout y navega
+    if (btnPreviewBuyNow) {
+      btnPreviewBuyNow.onclick = () => {
         closeProductPreview();
-        selectProduct(prod.id);
+        selectProduct(prod.id, selectedPack ? selectedPack.quantity : 1, selectedPack);
         scrollToCheckout();
+      };
+    }
+
+    // Botón 2: EXPLORAR MÁS PRODUCTOS -> Cierra modal y hace scroll al catálogo
+    if (btnPreviewExplore) {
+      btnPreviewExplore.onclick = () => {
+        closeProductPreview();
+        const catalogSection = document.getElementById("productos");
+        if (catalogSection) {
+          catalogSection.scrollIntoView({ behavior: "smooth" });
+        }
       };
     }
 
@@ -227,7 +385,7 @@ document.addEventListener("DOMContentLoaded", () => {
     productPreviewModal.setAttribute("aria-hidden", "false");
     document.body.style.overflow = "hidden";
 
-    // Actualizar URL sin recargar para que refleje el enlace específico del producto
+    // Actualizar URL sin recargar para reflejar enlace directo
     try {
       history.replaceState({ productId: prod.id }, "", shareUrl);
     } catch (e) {}
@@ -240,7 +398,6 @@ document.addEventListener("DOMContentLoaded", () => {
     productPreviewModal.setAttribute("aria-hidden", "true");
     document.body.style.overflow = "";
 
-    // Limpiar el parámetro de la URL al cerrar el modal
     try {
       const cleanUrl = window.location.pathname + (window.location.hash || "");
       history.replaceState(null, "", cleanUrl);
@@ -465,11 +622,22 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   // Seleccionar producto y recalcular
-  const selectProduct = (prodId) => {
+  const selectProduct = (prodId, packQuantity = null, packObj = null) => {
     const found = CONFIG.products.find(p => p.id === prodId);
     if (found) {
       currentProduct = found;
-      currentPack = found.packs ? found.packs[0] : null;
+      if (packObj) {
+        currentPack = packObj;
+      } else if (packQuantity && found.packs) {
+        currentPack = found.packs.find(pk => pk.quantity === Number(packQuantity)) || found.packs[0];
+      } else {
+        currentPack = found.packs ? (found.packs.find(pk => pk.popular) || found.packs[0]) : null;
+      }
+      currentQuantity = currentPack ? currentPack.quantity : 1;
+
+      if (inputProductQty) {
+        inputProductQty.value = currentQuantity;
+      }
       if (selectProductCheckout) {
         selectProductCheckout.value = found.id;
       }
@@ -477,18 +645,22 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
-  // 6. Recalcular Precios en Tiempo Real según Producto, Cantidad y Order Bump
+  // 6. Recalcular Precios en Tiempo Real según Producto, Cantidad, Paquete y Order Bump
   const updatePriceCalculations = () => {
     const qty = currentQuantity;
-    const baseSubtotal = currentProduct.originalPrice * qty;
-    const baseDiscount = currentProduct.discount * qty;
+    const isPackMatch = currentPack && currentPack.quantity === qty;
+
+    const baseSubtotal = isPackMatch ? currentPack.originalPrice : (currentProduct.originalPrice * qty);
+    const basePrice = isPackMatch ? currentPack.price : (currentProduct.price * qty);
+    const baseDiscount = baseSubtotal - basePrice;
+
     const bumpPrice = isBumpActive ? CONFIG.orderBump.price : 0;
     const bumpOriginal = isBumpActive ? CONFIG.orderBump.originalPrice : 0;
     const shipping = CONFIG.shippingCost;
 
     const netSubtotal = baseSubtotal + bumpOriginal;
     const totalDiscount = baseDiscount + (isBumpActive ? (CONFIG.orderBump.originalPrice - CONFIG.orderBump.price) : 0);
-    const finalTotal = (currentProduct.price * qty) + bumpPrice + shipping;
+    const finalTotal = basePrice + bumpPrice + shipping;
 
     if (elSubtotal) elSubtotal.textContent = formatRD(netSubtotal);
     if (elDiscount) elDiscount.textContent = `-${formatRD(totalDiscount)}`;
@@ -504,6 +676,10 @@ document.addEventListener("DOMContentLoaded", () => {
         if (currentQuantity > 1) {
           currentQuantity--;
           if (inputProductQty) inputProductQty.value = currentQuantity;
+          // Si cambia la cantidad manualmente, buscar si coincide con un pack del producto
+          if (currentProduct.packs) {
+            currentPack = currentProduct.packs.find(p => p.quantity === currentQuantity) || null;
+          }
           updatePriceCalculations();
         }
       });
@@ -514,6 +690,10 @@ document.addEventListener("DOMContentLoaded", () => {
         if (currentQuantity < 99) {
           currentQuantity++;
           if (inputProductQty) inputProductQty.value = currentQuantity;
+          // Si cambia la cantidad manualmente, buscar si coincide con un pack del producto
+          if (currentProduct.packs) {
+            currentPack = currentProduct.packs.find(p => p.quantity === currentQuantity) || null;
+          }
           updatePriceCalculations();
         }
       });
@@ -602,24 +782,33 @@ document.addEventListener("DOMContentLoaded", () => {
       // Generar ID de Orden
       const orderNumber = `ORD-${Math.floor(1000 + Math.random() * 9000)}`;
       const qty = currentQuantity;
-      const productTotal = currentProduct.price * qty;
+      const isPackMatch = currentPack && currentPack.quantity === qty;
+
+      const baseSubtotal = isPackMatch ? currentPack.originalPrice : (currentProduct.originalPrice * qty);
+      const basePrice = isPackMatch ? currentPack.price : (currentProduct.price * qty);
+      const baseDiscount = baseSubtotal - basePrice;
+
       const bumpPrice = isBumpActive ? CONFIG.orderBump.price : 0;
       const bumpOriginal = isBumpActive ? CONFIG.orderBump.originalPrice : 0;
-      const netSubtotal = (currentProduct.originalPrice * qty) + bumpOriginal;
-      const totalDiscount = (currentProduct.discount * qty) + (isBumpActive ? (CONFIG.orderBump.originalPrice - CONFIG.orderBump.price) : 0);
-      const finalTotal = productTotal + bumpPrice + CONFIG.shippingCost;
+      const netSubtotal = baseSubtotal + bumpOriginal;
+      const totalDiscount = baseDiscount + (isBumpActive ? (CONFIG.orderBump.originalPrice - CONFIG.orderBump.price) : 0);
+      const finalTotal = basePrice + bumpPrice + CONFIG.shippingCost;
 
       // Crear mensaje estructurado para WhatsApp
       let msg = `🌿 *¡NUEVO PEDIDO - ORGANIC SHOP RD!* 🇩🇴\n`;
       msg += `*Orden:* #${orderNumber}\n\n`;
 
-      msg += `📦 *PRODUCTO Y CANTIDAD:*\n`;
-      if (qty === 1) {
+      msg += `📦 *PRODUCTO Y TRATAMIENTO:*\n`;
+      if (isPackMatch) {
+        msg += `• *Paquete:* ${currentPack.label} (${currentPack.treatmentBadge || 'Tratamiento'})\n`;
+        msg += `• *Producto:* ${currentProduct.name}\n`;
+        msg += `• *Precio Oferta:* ${formatRD(currentPack.price)}\n`;
+      } else if (qty === 1) {
         msg += `• *Cantidad:* 1 unidad\n`;
         msg += `• *Producto:* ${currentProduct.name} (${formatRD(currentProduct.price)})\n`;
       } else {
         msg += `• *Cantidad:* ${qty} unidades\n`;
-        msg += `• *Producto:* ${currentProduct.name} (${formatRD(currentProduct.price)} c/u = ${formatRD(productTotal)})\n`;
+        msg += `• *Producto:* ${currentProduct.name} (${formatRD(currentProduct.price)} c/u = ${formatRD(basePrice)})\n`;
       }
       if (isBumpActive) {
         msg += `• 🔥 *Oferta Especial (Order Bump):* ${CONFIG.orderBump.title} (${formatRD(CONFIG.orderBump.price)})\n`;
@@ -754,10 +943,12 @@ document.addEventListener("DOMContentLoaded", () => {
   // 13. Redirección Automática al Producto Compartido por Enlace (?producto=ID o #card-ID)
   const checkProductDeepLink = () => {
     let targetId = null;
+    let targetPack = null;
 
     try {
       const urlParams = new URLSearchParams(window.location.search);
       targetId = urlParams.get("producto") || urlParams.get("prod") || urlParams.get("p");
+      targetPack = urlParams.get("pack") || urlParams.get("tratamiento") || urlParams.get("qty");
     } catch (e) {}
 
     if (!targetId && window.location.hash) {
@@ -786,8 +977,8 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 3500);
       }
 
-      // 2. Abrir automáticamente la vista previa detallada del producto
-      openProductPreview(matchedProduct.id);
+      // 2. Abrir automáticamente la vista previa detallada del producto con tratamientos y guías
+      openProductPreview(matchedProduct.id, targetPack);
     }, 400);
   };
 
@@ -803,6 +994,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initQuantityControl();
   initProvinces();
   initProductSelector();
+  initGuideTabs();
   renderFeaturedProducts();
   renderAllProducts("all");
   renderTestimonials();

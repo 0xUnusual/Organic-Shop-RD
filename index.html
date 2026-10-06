@@ -69,7 +69,7 @@
           <li class="nav-item">
             <a href="#productos" class="nav-link nav-link-highlight">
               Productos
-              <span class="nav-badge-count">10</span>
+              <span class="nav-badge-count">11</span>
             </a>
           </li>
           <li class="nav-item"><a href="#testimonios" class="nav-link">Opiniones</a></li>
@@ -124,7 +124,7 @@
       <ul class="mobile-nav-list">
         <li><a href="#" class="mobile-nav-link">🌿 Inicio</a></li>
         <li><a href="#destacados" class="mobile-nav-link">⭐ Destacados (3)</a></li>
-        <li><a href="#productos" class="mobile-nav-link">🍃 Productos (10)</a></li>
+        <li><a href="#productos" class="mobile-nav-link">🍃 Productos (11)</a></li>
         <li><a href="#testimonios" class="mobile-nav-link">💬 Opiniones</a></li>
         <li><a href="#checkoutSection" class="mobile-nav-link mobile-cta btn-go-checkout">🛒 Ordenar y Pagar al Recibir</a></li>
       </ul>
@@ -255,12 +255,12 @@
       <!-- Banner hacia el catálogo completo -->
       <div class="catalog-invite-bar">
         <div class="invite-info">
-          <div class="invite-badge">🍃 10 PRODUCTOS DISPONIBLES</div>
+          <div class="invite-badge">🍃 11 PRODUCTOS DISPONIBLES</div>
           <h3>¿Deseas ver todas nuestras fórmulas naturales?</h3>
-          <p>Explora nuestro catálogo completo de 10 productos orgánicos para el cuidado capilar, facial, corporal y bienestar.</p>
+          <p>Explora nuestro catálogo completo de 11 productos orgánicos certificados para salud digestiva, cuidado capilar, facial, corporal y bienestar.</p>
         </div>
         <a href="#productos" class="btn-invite-action">
-          <span>Ver Catálogo Completo (10)</span>
+          <span>Ver Catálogo Completo (11)</span>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <line x1="5" y1="12" x2="19" y2="12"></line>
             <polyline points="12 5 19 12 12 19"></polyline>
@@ -270,19 +270,22 @@
     </div>
   </section>
 
-  <!-- 6. Catálogo Completo de Productos (Alrededor de 10 Productos Orgánicos) -->
+  <!-- 6. Catálogo Completo de Productos (11 Productos Orgánicos) -->
   <section class="catalog-section all-products-section" id="productos">
     <div class="container">
       <div class="section-header">
         <span class="section-pill">🌿 Catálogo Completo de Productos</span>
         <h2>Nuestra Colección de Belleza & Salud Orgánica</h2>
-        <p>10 productos artesanales y certificados, libres de químicos abrasivos. Al presionar <strong>Ordenar y Pagar en Casa</strong>, tu elección se cargará al instante en el checkout para entrega a domicilio.</p>
+        <p>11 productos artesanales y certificados, libres de químicos abrasivos. Al presionar <strong>Ordenar y Pagar en Casa</strong>, tu elección se cargará al instante en el checkout para entrega a domicilio.</p>
       </div>
 
       <!-- Filtros interactivos por Categoría -->
       <div class="catalog-filter-bar" id="categoryFilters">
         <button class="filter-pill active" data-category="all" type="button">
-          Todos los Productos <span class="pill-badge">10</span>
+          Todos los Productos <span class="pill-badge">11</span>
+        </button>
+        <button class="filter-pill" data-category="Salud & Bienestar" type="button">
+          Salud & Bienestar <span class="pill-badge">2</span>
         </button>
         <button class="filter-pill" data-category="Cuidado Facial" type="button">
           Cuidado Facial <span class="pill-badge">5</span>
@@ -292,9 +295,6 @@
         </button>
         <button class="filter-pill" data-category="Cuidado Corporal" type="button">
           Cuidado Corporal <span class="pill-badge">2</span>
-        </button>
-        <button class="filter-pill" data-category="Bienestar & Aromaterapia" type="button">
-          Bienestar <span class="pill-badge">1</span>
         </button>
       </div>
 
@@ -587,7 +587,7 @@
     </svg>
   </a>
 
-  <!-- 10. Modal de Vista Previa del Producto con Enlace Compartible -->
+  <!-- 10. Modal de Vista Previa del Producto con Tratamientos, Guías y Acciones -->
   <div class="product-preview-backdrop" id="productPreviewModal" role="dialog" aria-modal="true" aria-hidden="true">
     <div class="product-preview-card">
       <button type="button" class="btn-close-preview" id="btnClosePreview" aria-label="Cerrar vista previa">
@@ -605,38 +605,11 @@
             <span class="preview-badge" id="previewBadge"></span>
             <span class="preview-discount-tag" id="previewDiscount"></span>
           </div>
+
           <div class="preview-trust-mini">
             <div class="mini-trust-tag">🇩🇴 Envíos a todo RD</div>
             <div class="mini-trust-tag">💵 Paga al recibir en efectivo</div>
             <div class="mini-trust-tag">🌿 100% Orgánico certificado</div>
-          </div>
-        </div>
-
-        <!-- Columna Informativa y de Acciones -->
-        <div class="preview-info-col">
-          <div class="preview-category-row">
-            <span class="preview-category" id="previewCategory"></span>
-            <div class="preview-rating" id="previewRating">
-              ★★★★★ <strong id="previewRatingScore">5.0</strong> <span id="previewReviewsCount">(0 opiniones)</span>
-            </div>
-          </div>
-
-          <h3 class="preview-title" id="previewTitle"></h3>
-
-          <div class="preview-pricing-box">
-            <span class="preview-price-current" id="previewPriceCurrent"></span>
-            <span class="preview-price-old" id="previewPriceOld"></span>
-            <span class="preview-savings" id="previewSavings"></span>
-          </div>
-
-          <div class="preview-desc-box">
-            <h4>Descripción del Producto</h4>
-            <p id="previewDesc"></p>
-          </div>
-
-          <div class="preview-features-box">
-            <h4>Beneficios & Propiedades Botánicas</h4>
-            <ul class="preview-features-list" id="previewFeaturesList"></ul>
           </div>
 
           <!-- Caja de Compartir Enlace Directo -->
@@ -662,16 +635,134 @@
               </a>
             </div>
           </div>
+        </div>
 
-          <!-- Botón de Ordenar directo al Checkout -->
-          <div class="preview-cta-row">
-            <button type="button" class="btn-preview-order" id="btnPreviewOrder">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M19 7h-3V6a4 4 0 0 0-8 0v1H5a1 1 0 0 0-1 1v11a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V8a1 1 0 0 0-1-1zm-9-1a2 2 0 0 1 4 0v1h-4V6zm8 13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V9h2v1a1 1 0 0 0 2 0V9h4v1a1 1 0 0 0 2 0V9h2v10z"/>
-              </svg>
-              <span>ORDENAR Y PAGAR EN CASA - <span id="previewBtnTotal"></span></span>
-            </button>
+        <!-- Columna Informativa y de Acciones -->
+        <div class="preview-info-col">
+          <div class="preview-category-row">
+            <span class="preview-category" id="previewCategory"></span>
+            <div class="preview-rating" id="previewRating">
+              ★★★★★ <strong id="previewRatingScore">5.0</strong> <span id="previewReviewsCount">(0 opiniones)</span>
+            </div>
           </div>
+
+          <h3 class="preview-title" id="previewTitle"></h3>
+          <p class="preview-desc-lead" id="previewDesc"></p>
+
+          <!-- SECCIÓN DE TRATAMIENTOS / PAQUETES (IDÉNTICO A LA FOTO DE REFERENCIA) -->
+          <div class="treatment-section">
+            <div class="treatment-section-header">
+              <div class="treatment-title-group">
+                <span class="treatment-fire-badge">🔥 OFERTA EXCLUSIVA</span>
+                <h4>Elige tu Tratamiento</h4>
+              </div>
+              <span class="treatment-hint">Haz clic en el paquete deseado:</span>
+            </div>
+
+            <!-- Lista interactiva de tarjetas de tratamiento (1 Frasco, 2 Frascos, 3 Frascos) -->
+            <div class="treatment-cards-list" id="previewTreatmentPacks">
+              <!-- Renderizado dinámicamente con las tarjetas exactas a la foto -->
+            </div>
+          </div>
+
+          <!-- GUÍA INTERACTIVA DEL PRODUCTO: BENEFICIOS / CÓMO TOMAR O APLICAR / INGREDIENTES -->
+          <div class="product-guides-container">
+            <div class="guide-tabs-nav" id="guideTabsNav" role="tablist">
+              <button type="button" class="guide-tab-btn active" data-tab="benefits" role="tab" aria-selected="true">
+                <span class="tab-icon">🌿</span>
+                <span>Beneficios del Producto</span>
+              </button>
+              <button type="button" class="guide-tab-btn" data-tab="usage" id="btnTabUsage" role="tab" aria-selected="false">
+                <span class="tab-icon" id="tabUsageIcon">📋</span>
+                <span id="tabUsageText">Cómo Tomar o Aplicar</span>
+              </button>
+              <button type="button" class="guide-tab-btn" data-tab="ingredients" role="tab" aria-selected="false">
+                <span class="tab-icon">🍃</span>
+                <span>Ingredientes</span>
+              </button>
+            </div>
+
+            <div class="guide-tab-content">
+              <!-- Panel 1: Guía de Beneficios Comprobados -->
+              <div class="guide-pane active" id="paneBenefits" role="tabpanel">
+                <div class="benefits-detailed-grid" id="previewBenefitsGrid">
+                  <!-- Tarjetas de beneficios generadas dinámicamente -->
+                </div>
+              </div>
+
+              <!-- Panel 2: Guía de Cómo Tomar o Aplicar -->
+              <div class="guide-pane" id="paneUsage" role="tabpanel">
+                <div class="usage-guide-card">
+                  <div class="usage-guide-header">
+                    <div class="usage-header-badge" id="previewUsageTypeBadge">GUÍA DE USO</div>
+                    <h5 id="previewUsageTitle">¿Cómo tomar o aplicar este producto?</h5>
+                    <p id="previewUsageSubtitle">Guía paso a paso para resultados óptimos y comprobados</p>
+                  </div>
+                  <div class="usage-steps-list" id="previewUsageStepsList">
+                    <!-- Pasos numerados 1, 2, 3, 4 -->
+                  </div>
+                  <div class="usage-protip-box" id="previewUsageProTip">
+                    <!-- Consejo pro -->
+                  </div>
+                </div>
+              </div>
+
+              <!-- Panel 3: Ingredientes y Certificación Botánica -->
+              <div class="guide-pane" id="paneIngredients" role="tabpanel">
+                <div class="ingredients-card">
+                  <div class="ingredients-header">
+                    <h5>Pureza e Ingredientes 100% Orgánicos</h5>
+                    <p>Fórmula botánica limpia de comercio ético, libre de rellenos artificiales y parabenos dañinos.</p>
+                  </div>
+                  <div class="ingredients-content-box">
+                    <strong>Componentes activos:</strong>
+                    <p id="previewIngredientsText"></p>
+                  </div>
+                  <div class="ingredients-seals-grid">
+                    <div class="seal-badge"><span>🌱</span> 100% Botánico</div>
+                    <div class="seal-badge"><span>🚫</span> Sin Parabenos</div>
+                    <div class="seal-badge"><span>🐰</span> Cruelty Free</div>
+                    <div class="seal-badge"><span>🇩🇴</span> Entrega en RD</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- BOTONES EN LA PARTE INFERIOR: COMPRAR AHORA O EXPLORAR MÁS PRODUCTOS -->
+          <div class="preview-footer-actions">
+            <div class="preview-actions-group">
+              <!-- Botón 1: Comprar Ahora con precio dinámico del tratamiento seleccionado -->
+              <button type="button" class="btn-preview-buy-now" id="btnPreviewBuyNow">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M19 7h-3V6a4 4 0 0 0-8 0v1H5a1 1 0 0 0-1 1v11a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V8a1 1 0 0 0-1-1zm-9-1a2 2 0 0 1 4 0v1h-4V6zm8 13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V9h2v1a1 1 0 0 0 2 0V9h4v1a1 1 0 0 0 2 0V9h2v10z"/>
+                </svg>
+                <div class="btn-buy-labels">
+                  <span class="btn-buy-title">COMPRAR AHORA Y PAGAR AL RECIBIR</span>
+                  <span class="btn-buy-total" id="previewBtnBuyPrice">RD$ 1,985.00</span>
+                </div>
+              </button>
+
+              <!-- Botón 2: Explorar más productos -->
+              <button type="button" class="btn-preview-explore" id="btnPreviewExplore">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+                <span>Explorar más productos</span>
+              </button>
+            </div>
+
+            <!-- Garantías de confianza debajo de los botones -->
+            <div class="preview-footer-guarantees">
+              <span class="foot-guarantee-item">🚚 Envío Gratis a todo el país</span>
+              <span class="foot-divider">•</span>
+              <span class="foot-guarantee-item">💵 Pagas en Efectivo al Recibir en Casa</span>
+              <span class="foot-divider">•</span>
+              <span class="foot-guarantee-item">📞 Seguimiento vía WhatsApp</span>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
